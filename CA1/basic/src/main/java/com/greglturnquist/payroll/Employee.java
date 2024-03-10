@@ -15,30 +15,38 @@
  */
 package com.greglturnquist.payroll;
 
-import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
 @Entity // <1>
-public class Employee {
+class Employee {
 
 	private @Id @GeneratedValue Long id; // <2>
 	private String firstName;
 	private String lastName;
 	private String description;
+	private int jobYears;
+	private String jobTitle;
 
-	private Employee() {}
+	protected Employee() {
+	}
 
-	public Employee(String firstName, String lastName, String description) {
+	public Employee(String firstName, String lastName, String description, int jobYears, String jobTitle) {
+		if (firstName == null || lastName == null || description == null || jobTitle == null ||
+				firstName.isBlank() || lastName.isBlank() || description.isBlank() || jobTitle.isBlank() ||
+				jobYears < 0)
+			throw new IllegalArgumentException("All fields must be filled in");
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
+		this.jobYears = jobYears;
+		this.jobTitle = jobTitle;
 	}
 
 	@Override
@@ -49,13 +57,15 @@ public class Employee {
 		return Objects.equals(id, employee.id) &&
 			Objects.equals(firstName, employee.firstName) &&
 			Objects.equals(lastName, employee.lastName) &&
-			Objects.equals(description, employee.description);
+				Objects.equals(description, employee.description) &&
+				Objects.equals(jobYears, employee.jobYears) &&
+				Objects.equals(jobTitle, employee.jobTitle);
 	}
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(id, firstName, lastName, description);
+		return Objects.hash(id, firstName, lastName, description, jobYears, jobTitle);
 	}
 
 	public Long getId() {
@@ -90,6 +100,22 @@ public class Employee {
 		this.description = description;
 	}
 
+	public int getJobYears() {
+		return jobYears;
+	}
+
+	public void setJobYears(int jobYears) {
+		this.jobYears = jobYears;
+	}
+
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee{" +
@@ -97,6 +123,8 @@ public class Employee {
 			", firstName='" + firstName + '\'' +
 			", lastName='" + lastName + '\'' +
 			", description='" + description + '\'' +
+				", jobYears='" + jobYears + '\'' +
+				", jobTitle='" + jobTitle + '\'' +
 			'}';
 	}
 }
