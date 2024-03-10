@@ -33,20 +33,22 @@ class Employee {
 	private String description;
 	private int jobYears;
 	private String jobTitle;
+	private String email;
 
 	protected Employee() {
 	}
 
-	public Employee(String firstName, String lastName, String description, int jobYears, String jobTitle) {
+	public Employee(String firstName, String lastName, String description, int jobYears, String jobTitle, String email) {
 		if (firstName == null || lastName == null || description == null || jobTitle == null ||
-				firstName.isBlank() || lastName.isBlank() || description.isBlank() || jobTitle.isBlank() ||
-				jobYears < 0)
+				email == null || firstName.isBlank() || lastName.isBlank() || description.isBlank() ||
+				jobTitle.isBlank() || email.isBlank() || jobYears < 0)
 			throw new IllegalArgumentException("All fields must be filled in");
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
 		this.jobYears = jobYears;
 		this.jobTitle = jobTitle;
+		this.email = email;
 	}
 
 	@Override
@@ -59,7 +61,8 @@ class Employee {
 			Objects.equals(lastName, employee.lastName) &&
 				Objects.equals(description, employee.description) &&
 				Objects.equals(jobYears, employee.jobYears) &&
-				Objects.equals(jobTitle, employee.jobTitle);
+				Objects.equals(jobTitle, employee.jobTitle) &&
+				Objects.equals(email, employee.email);
 	}
 
 	@Override
@@ -116,15 +119,23 @@ class Employee {
 		this.jobTitle = jobTitle;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee{" +
 			"id=" + id +
 			", firstName='" + firstName + '\'' +
 			", lastName='" + lastName + '\'' +
-			", description='" + description + '\'' +
-				", jobYears='" + jobYears + '\'' +
+				", description='" + description + '\'' + ", jobYears='" + jobYears + '\'' +
 				", jobTitle='" + jobTitle + '\'' +
+				", email='" + email + '\'' +
 			'}';
 	}
 }

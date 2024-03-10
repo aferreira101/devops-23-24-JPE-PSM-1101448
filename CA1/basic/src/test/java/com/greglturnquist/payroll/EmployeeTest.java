@@ -9,7 +9,7 @@ class EmployeeTest {
 
     @Test
     void testEmployeeWithValidParameters() {
-        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor");
+        Employee employee = new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", "fbaggins@email.com");
         assertEquals("Frodo", employee.getFirstName());
         assertEquals("Baggins", employee.getLastName());
         assertEquals("ring bearer", employee.getDescription());
@@ -19,22 +19,24 @@ class EmployeeTest {
 
     @Test
     void testEmployeeWithNullParameters() {
-        assertThrows(IllegalArgumentException.class, () -> new Employee(null, "Baggins", "ring bearer", 1, "Janitor"));
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", null, "ring bearer", 1, "Janitor"));
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", null, 1, "Janitor"));
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, null));
+        assertThrows(IllegalArgumentException.class, () -> new Employee(null, "Baggins", "ring bearer", 1, "Janitor", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", null, "ring bearer", 1, "Janitor", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", null, 1, "Janitor", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, null, "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", null));
     }
 
     @Test
     void testEmployeeWithBlankParameters() {
-        assertThrows(IllegalArgumentException.class, () -> new Employee("", "Baggins", "ring bearer", 1, "Janitor"));
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "", "ring bearer", 1, "Janitor"));
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "", 1, "Janitor"));
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, ""));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("", "Baggins", "ring bearer", 1, "Janitor", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "", "ring bearer", 1, "Janitor", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "", 1, "Janitor", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "", "fbaggins@email.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", ""));
     }
 
     @Test
     void testEmployeeWithNegativeJobYears() {
-        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", -1, "Janitor"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", -1, "Janitor", "fbaggins@email.com"));
     }
 }
