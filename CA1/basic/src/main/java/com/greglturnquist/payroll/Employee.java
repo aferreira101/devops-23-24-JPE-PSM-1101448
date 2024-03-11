@@ -19,6 +19,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Greg Turnquist
@@ -43,12 +45,23 @@ class Employee {
 				email == null || firstName.isBlank() || lastName.isBlank() || description.isBlank() ||
 				jobTitle.isBlank() || email.isBlank() || jobYears < 0)
 			throw new IllegalArgumentException("All fields must be filled in");
+
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.description = description;
 		this.jobYears = jobYears;
 		this.jobTitle = jobTitle;
-		this.email = email;
+		if (emailValidation(email)) {
+			this.email = email;
+		} else throw new IllegalArgumentException("Invalid email");
+	}
+
+	public boolean emailValidation(String email) {
+		String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+		Pattern pattern = Pattern.compile(emailRegex);
+		Matcher matcher = pattern.matcher(email);
+
+		return matcher.matches();
 	}
 
 	@Override
