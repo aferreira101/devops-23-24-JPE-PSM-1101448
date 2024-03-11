@@ -39,4 +39,13 @@ class EmployeeTest {
     void testEmployeeWithNegativeJobYears() {
         assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", -1, "Janitor", "fbaggins@email.com"));
     }
+
+    @Test
+    void testEmployeeWithInvalidEmail() {
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", "fbaggins"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", "fbaggins@"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", "fbaggins@.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", "fbaggins.com"));
+        assertThrows(IllegalArgumentException.class, () -> new Employee("Frodo", "Baggins", "ring bearer", 1, "Janitor", "fbaggins@email"));
+    }
 }
