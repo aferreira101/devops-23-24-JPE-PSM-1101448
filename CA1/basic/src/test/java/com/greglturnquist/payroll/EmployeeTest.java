@@ -15,6 +15,7 @@ class EmployeeTest {
         assertEquals("ring bearer", employee.getDescription());
         assertEquals(1, employee.getJobYears());
         assertEquals("Janitor", employee.getJobTitle());
+        assertEquals("fbaggins@email.com", employee.getEmail());
     }
 
     @Test
