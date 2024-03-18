@@ -6,7 +6,7 @@ build/
 
 bin/
 .vscode/
-.idea/*
+.idea/
 */.idea/*
 .DS_Store/
 .classpath
