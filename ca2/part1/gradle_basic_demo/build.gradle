@@ -25,6 +25,9 @@ dependencies {
     // Use Apache Log4J for logging
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+
+    // Add JUnit 4.2 for testing
+    testImplementation 'junit:junit:4.2'
 }
  
 
@@ -46,7 +49,7 @@ jar {
 }
 
 
-
+// Task to run the client
 task runClient(type:JavaExec, dependsOn: classes){
     group = "DevOps"
     description = "Launches a chat client that connects to a server on localhost:59001 "
@@ -56,4 +59,25 @@ task runClient(type:JavaExec, dependsOn: classes){
     mainClass = 'basic_demo.ChatClientApp'
 
     args 'localhost', '59001'
+}
+
+// Task to run the server
+task runServer(type: JavaExec, dependsOn: classes) {
+    group = "DevOps"
+    description = "Launches a chat server that listens on port 59001"
+
+    classpath = sourceSets.main.runtimeClasspath
+
+    mainClass = 'basic_demo.ChatServerApp'
+
+    args '59001'
+}
+
+// Task to create a backup
+task backup(type: Copy) {
+    group = "DevOps"
+    description = "Copies the source code to a backup directory"
+
+    from 'src'
+    into 'backup'
 }
