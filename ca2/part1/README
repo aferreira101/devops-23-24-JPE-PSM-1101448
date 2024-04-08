@@ -37,14 +37,14 @@ local repository and close the issue #1:
     ```java
     // Task to run the server
     task runServer(type:JavaExec, dependsOn:classes) {
-        group = "DevOps"
-        description = "Launches a chat server that listens on port 59001"
+        group = "DevOps";
+        description = "Launches a chat server that listens on port 59001";
     
-        classpath = sourceSets.main.runtimeClasspath
+        classpath = sourceSets.main.runtimeClasspath;
     
-        mainClass = 'basic_demo.ChatServerApp'
+        mainClass = 'basic_demo.ChatServerApp';
     
-        args '59001'
+        args '59001';
     }
     ```
 2. After adding the new task, you can run the server, and commit the changes by executing the following command in the
@@ -63,7 +63,7 @@ local repository and close the issue #1:
 
       ```java 
       dependencies {
-        testImplementation 'junit:junit:4.12'
+        testImplementation 'junit:junit:4.12';
       }
       ```
 
@@ -96,7 +96,6 @@ local repository and close the issue #1:
     - `git commit -m "Add a simple unit test, closes #3"`
     - `git push`
 
-[Back to Top](#technical-report-build-tools-with-gradle)
 
 #### Step 4:  Add a New Task of the type Copy
 
@@ -105,12 +104,12 @@ local repository and close the issue #1:
 
     ```java
             // Task to create a backup
-        task backup(type: Copy) {
-        group = "DevOps"
-        description = "Copies the source code to a backup directory"
+        task backup(type:Copy) {
+        group = "DevOps";
+        description = "Copies the source code to a backup directory";
         
-            from 'src'
-            into 'backup'} 
+            from 'src';
+            into 'backup';} 
      ```
 2. After adding the new task, you can run the task, and commit the changes by executing the following command in the
    terminal:
@@ -119,7 +118,6 @@ local repository and close the issue #1:
     - `git commit -m "Add a new task of the type Copy, closes #4"`
     - `git push`
 
-[Back to Top](#technical-report-build-tools-with-gradle)
 
 #### Step 5:  Add a New Task of the type Zip
 
@@ -128,13 +126,13 @@ local repository and close the issue #1:
 
    ```java
     // Task to zip the source code
-   task zipSource(type: Zip) {
-   group = "DevOps"
-   description = "Zips the source code"
+   task zipSource(type:Zip) {
+   group = "DevOps";
+   description = "Zips the source code";
    
-       from 'src'
-       archiveFileName = 'source.zip'
-       destinationDir(file('zip'))}
+       from 'src';
+       archiveFileName = 'source.zip';
+       destinationDir(file('zip'));}
    ```
 
 2. After adding the new task, you can run the task, and commit the changes by executing the following command in the
@@ -144,7 +142,7 @@ local repository and close the issue #1:
     - `git commit -m "Add a new task of the type Zip, closes #5"`
     - `git push`
 
-[Back to Top](#technical-report-build-tools-with-gradle)
+
 
 #### Step 6:  Mark York Repository
 
@@ -154,8 +152,8 @@ Open the terminal and use the following command to mark the repository with the 
 - `git push --tags`
 - `git push origin main`
 
-[Back to Top](#technical-report-build-tools-with-gradle)
 
+[Back to Top](#technical-report-build-tools-with-gradle)
 # END OF README
 
 ```
