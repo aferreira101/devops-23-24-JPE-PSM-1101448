@@ -34,3 +34,16 @@ frontend {
 	cleanScript = 'run clean'
 	checkScript = 'run check'
 }
+
+task copyJarToDist(type: Copy) {
+	from tasks.jar
+	into 'dist'
+}
+
+task deleteWebpackFiles(type: Delete) {
+	delete 'src/main/resources/static/built/'
+}
+
+clean {
+	dependsOn 'deleteWebpackFiles'
+}
