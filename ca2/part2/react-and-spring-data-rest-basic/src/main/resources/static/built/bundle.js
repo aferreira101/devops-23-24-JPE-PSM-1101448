@@ -34089,7 +34089,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
@@ -34105,7 +34105,6 @@ var client = __webpack_require__(/*! ./client */ "./src/main/js/client.js"); // 
 
 // tag::app[]
 var App = /*#__PURE__*/function (_React$Component) {
-  _inherits(App, _React$Component);
   // <1>
 
   function App(props) {
@@ -34117,7 +34116,8 @@ var App = /*#__PURE__*/function (_React$Component) {
     };
     return _this;
   }
-  _createClass(App, [{
+  _inherits(App, _React$Component);
+  return _createClass(App, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
@@ -34140,16 +34140,15 @@ var App = /*#__PURE__*/function (_React$Component) {
       });
     }
   }]);
-  return App;
 }(React.Component); // end::app[]
 // tag::employee-list[]
 var EmployeeList = /*#__PURE__*/function (_React$Component2) {
-  _inherits(EmployeeList, _React$Component2);
   function EmployeeList() {
     _classCallCheck(this, EmployeeList);
     return _callSuper(this, EmployeeList, arguments);
   }
-  _createClass(EmployeeList, [{
+  _inherits(EmployeeList, _React$Component2);
+  return _createClass(EmployeeList, [{
     key: "render",
     value: function render() {
       var employees = this.props.employees.map(function (employee) {
@@ -34158,25 +34157,23 @@ var EmployeeList = /*#__PURE__*/function (_React$Component2) {
           employee: employee
         });
       });
-      return /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "First Name"), /*#__PURE__*/React.createElement("th", null, "Last Name"), /*#__PURE__*/React.createElement("th", null, "Description")), employees));
+      return /*#__PURE__*/React.createElement("table", null, /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "First Name"), /*#__PURE__*/React.createElement("th", null, "Last Name"), /*#__PURE__*/React.createElement("th", null, "Description"), /*#__PURE__*/React.createElement("th", null, "Job Years"), /*#__PURE__*/React.createElement("th", null, "Job Title"), /*#__PURE__*/React.createElement("th", null, "Email")), employees));
     }
   }]);
-  return EmployeeList;
 }(React.Component); // end::employee-list[]
 // tag::employee[]
 var Employee = /*#__PURE__*/function (_React$Component3) {
-  _inherits(Employee, _React$Component3);
   function Employee() {
     _classCallCheck(this, Employee);
     return _callSuper(this, Employee, arguments);
   }
-  _createClass(Employee, [{
+  _inherits(Employee, _React$Component3);
+  return _createClass(Employee, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, this.props.employee.firstName), /*#__PURE__*/React.createElement("td", null, this.props.employee.lastName), /*#__PURE__*/React.createElement("td", null, this.props.employee.description));
+      return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, this.props.employee.firstName), /*#__PURE__*/React.createElement("td", null, this.props.employee.lastName), /*#__PURE__*/React.createElement("td", null, this.props.employee.description), /*#__PURE__*/React.createElement("td", null, this.props.employee.jobYears), /*#__PURE__*/React.createElement("td", null, this.props.employee.jobTitle), /*#__PURE__*/React.createElement("td", null, this.props.employee.email));
     }
   }]);
-  return Employee;
 }(React.Component); // end::employee[]
 // tag::render[]
 ReactDOM.render( /*#__PURE__*/React.createElement(App, null), document.getElementById('react'));
