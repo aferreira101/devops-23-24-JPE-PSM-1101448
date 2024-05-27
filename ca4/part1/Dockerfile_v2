@@ -1,0 +1,14 @@
+# This Dockerfile_v2 is used to build a Docker image for the ChatServerApp application.
+# The second stage of the build process. We're using the openjdk:17-jdk-slim image as our base.
+FROM openjdk:17-jdk-slim
+
+# Sets the working directory in the Docker image.
+WORKDIR /ca4-part1/
+
+# Copies the built JAR file from the previous build stage to the current Docker image.
+COPY --from=builder /ca4-part1/gradle_basic_demo/build/libs/*.jar ca4-part1.jar
+
+# Configures the Docker container to run the Java application when it's started.
+# The ENTRYPOINT instruction allows you to configure a container that will run as an executable.
+EXPOSE 59001
+ENTRYPOINT ["java", "-cp", "ca4-part1.jar", "basic_demo.ChatServerApp", "59001"]

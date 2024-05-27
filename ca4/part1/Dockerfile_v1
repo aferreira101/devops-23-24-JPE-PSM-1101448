@@ -1,0 +1,30 @@
+# Dockerfile_v1 is used to build the gradle_basic_demo project in a Docker container.
+# The first stage of the build process. We're using the gradle:jdk21 image as our base.
+FROM gradle:jdk21 AS builder
+
+# Metadata for the image. In this case, it's the author of the Dockerfile_v1.
+LABEL authors="Andre Ferreira"
+
+# Sets the working directory in the Docker image.
+# This is where all the commands will be run.
+WORKDIR /ca4-part1/
+
+# Clones the gradle_basic_demo repository from Bitbucket into the Docker image.
+# This is the source code that will be built.
+RUN git clone https://bitbucket.org/pssmatos/gradle_basic_demo.git
+
+# Changes the working directory to the cloned repository.
+# This is where the build commands will be run.
+WORKDIR /ca4-part1/gradle_basic_demo
+
+# Makes the Gradle wrapper script executable and runs the Gradle clean and build tasks inside the Docker image.
+# This builds the source code into a runnable application.
+RUN chmod +x gradlew && ./gradlew clean build
+
+# Exposes port 59001 on the Docker container.
+# This is the port that the application will be accessible on.
+EXPOSE 59001
+
+# The command that will be run when the Docker container is started.
+# This starts the application.
+CMD ["sh", "-c", "java -jar build/libs/*.jar & gradle runServer"]
