@@ -19,11 +19,11 @@ the chat application from CA2 **gradle basic demo**.
 Before you start, make sure you have Docker installed on your machine.
 Also, let's clone the repository to have access to the files and build the project using Gradle.
 
-    ```bash 
+```bash 
     git clone https://bitbucket.org/pssmatos/gradle_basic_demo/
     cd gradle_basic_demo
     ./gradlew clean build
-    ```
+   ```
 
 Ensure that the build is successful and the JAR file is created in the build/libs directory.
 
@@ -33,65 +33,75 @@ In the root of the repository, create a Dockerfile to define the Docker image. T
 instructions to build the chat server and run it.
 Below are the contents of the Dockerfile for version 1.
 
-    ```dockerfile
-    # Dockerfile_v1 is used to build the gradle_basic_demo project in a Docker container.
-    # The first stage of the build process. We're using the gradle:jdk21 image as our base.
-    
-    FROM gradle:jdk21 AS builder
-    
-    # Metadata for the image. In this case, it's the author of the Dockerfile_v1.
-    
+```dockerfile
+    # This Dockerfile is used to build and run a Java application using Gradle.
+    # We start from a base image that includes Gradle and JDK 17.
+
+    FROM gradle:jdk17 AS builder
+
+    # Metadata indicating the authors of the image.
+
     LABEL authors="Andre Ferreira"
-    
-    # Sets the working directory in the Docker image.
-    # This is where all the commands will be run.
+
+    # Set the working directory in the Docker image filesystem.
     
     WORKDIR /ca4-part1/
     
-    # Clones the gradle_basic_demo repository from Bitbucket into the Docker image.
-    # This is the source code that will be built.
+    # Clone the Gradle Basic Demo project from Bitbucket.
     
     RUN git clone https://bitbucket.org/pssmatos/gradle_basic_demo.git
     
-    # Changes the working directory to the cloned repository.
-    # This is where the build commands will be run.
+    # Change the working directory to the cloned project directory.
     
     WORKDIR /ca4-part1/gradle_basic_demo
     
-    # Makes the Gradle wrapper script executable and runs the Gradle clean and build tasks inside the Docker image.
-    # This builds the source code into a runnable application.
+    # Make the Gradle wrapper executable and run the 'clean build' task.
+    # This will clean the project, compile the code, and package it into a JAR file.
     
     RUN chmod +x gradlew && ./gradlew clean build
     
-    # Exposes port 59001 on the Docker container.
-    # This is the port that the application will be accessible on.
+    # Expose port 59001 in the Docker container.
+    # This is the port that our application will be accessible on.
     
     EXPOSE 59001
     
-    # The command that will be run when the Docker container is started.
-    # This starts the application.
+    # The command that will be run when the Docker container starts.
+    # It starts the Java application and the Gradle server.
     
     CMD ["sh", "-c", "java -jar build/libs/*.jar & gradle runServer"]
-    ```
+   ```
 
 Below are the contents of the Dockerfile for version 2.
 
-    ```dockerfile
-    # This Dockerfile_v2 is used to build a Docker image for the ChatServerApp application.
-    # The second stage of the build process. We're using the openjdk:17-jdk-slim image as our base.
+```dockerfile
+    # This Dockerfile is used to build an image for a Java application.
+    # We start from a base image that already has Java installed.
+    # openjdk:17-jdk-slim is a slim version of the OpenJDK 17 image.
+
     FROM openjdk:17-jdk-slim
-    
-    # Sets the working directory in the Docker image.
+
+    # We set the working directory inside the container to /ca4-part1/.
+    # All subsequent commands will be run from this directory.
+
     WORKDIR /ca4-part1/
-        
-    # Copies the built JAR file from the previous build stage to the current Docker image.
-    COPY --from=builder /ca4-part1/gradle_basic_demo/build/libs/*.jar ca4-part1.jar
-        
-    # Configures the Docker container to run the Java application when it's started.
-    # The ENTRYPOINT instruction allows you to configure a container that will run as an executable.
+
+    # We copy the built JAR file from our host machine to the container.
+    # The JAR file is located in the build/libs directory of the gradle_basic_demo project.
+    # It is named ca4-part1.jar inside the container.
+
+    COPY ./gradle_basic_demo/build/libs/*.jar ca4-part1.jar
+
+    # We expose port 59001 in the container.
+    # This is the port that our application will be accessible on.
+
     EXPOSE 59001
+
+    # We define the command that will be run when the container is started.
+    # The application is started with the java command, using the -cp option to specify the classpath.
+    # The main class of the application is basic_demo.ChatServerApp and it listens on port 59001.
+
     ENTRYPOINT ["java", "-cp", "ca4-part1.jar", "basic_demo.ChatServerApp", "59001"]
-    ```
+   ```
 
 ### Step 2: Build the Docker Image
 
@@ -107,23 +117,23 @@ Build the Docker image using the Dockerfile. Specify the Dockerfile to use with 
    Hub username.
 
     ```bash 
-        docker tag chat-server:latest your-dockerhub-username/chat-server:latest
-    ```
+            docker tag chat-server:latest your-dockerhub-username/chat-server:latest
+       ```
 
 2. Push the Docker image to Docker Hub.
 
-      ```bash 
-        docker login
-        docker push your-dockerhub-username/chat-server:latest
-    ```
+     ```bash 
+            docker login
+            docker push your-dockerhub-username/chat-server:latest
+       ```
 
 ### Step 4: Run the Chat Server Container
 
 Run the Docker container from the pushed image. This will start the chat server inside the container.
 
-    ```bash
-    docker run -d -p 59001:59001 your-dockerhub-username/chat-server:latest
-    ```
+```bash
+  docker run -p 59001:59001 your-dockerhub-username/chat-server:latest
+   ```
 
 ## Conclusion
 
