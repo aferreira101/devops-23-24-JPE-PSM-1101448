@@ -1,4 +1,4 @@
-# This Dockerfile is used to build an image for a Java application.
+# This Dockerfile_web is used to build an image for a Java application.
 
 # We start from a base image that already has Java installed.
 # openjdk:17-jdk-slim is a slim version of the OpenJDK 17 image.

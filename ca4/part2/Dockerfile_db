@@ -1,0 +1,37 @@
+# This Dockerfile is used to create a Docker image for an H2 database server.
+
+# We start from an Ubuntu 20.04 (Focal Fossa) base image.
+FROM ubuntu:focal
+
+# Update the package lists for upgrades and new package installations.
+RUN apt-get update && apt-get upgrade -y
+
+# Fix broken dependencies.
+RUN apt-get install -f
+
+# Install wget and OpenJDK 17 without GUI components.
+RUN apt-get install -y wget openjdk-17-jdk-headless
+
+# Clean up the package lists to free up space.
+RUN rm -rf /var/lib/apt/lists/*
+
+# Set the working directory to /opt/h2.
+WORKDIR /opt/h2
+
+# Download the H2 database jar file from the Maven repository.
+RUN wget https://repo1.maven.org/maven2/com/h2database/h2/1.4.200/h2-1.4.200.jar -O h2.jar
+
+# Create a directory for the H2 database data files.
+RUN mkdir -p /opt/h2-data
+
+# Create a volume for the H2 database data files.
+VOLUME /opt/h2-data
+
+# Expose port 8082 for the H2 console.
+EXPOSE 8082
+
+# Expose port 9092 for TCP connections to the H2 database.
+EXPOSE 9092
+
+# The command to start the H2 database server.
+CMD ["java", "-cp", "h2.jar", "org.h2.tools.Server", "-ifNotExists", "-web", "-webAllowOthers", "-webPort", "8082", "-tcp", "-tcpAllowOthers", "-tcpPort", "9092"]

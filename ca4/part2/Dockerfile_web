@@ -1,0 +1,20 @@
+# Use openjdk:17-jdk-slim as a base image for the builder stage
+FROM openjdk:17-jdk-slim as builder
+
+# Set the working directory in the container to /ca4-part2
+WORKDIR /ca4-part2
+
+# Copy the local directory ./react-and-spring-data-rest-basic into the container
+COPY ./react-and-spring-data-rest-basic .
+
+# Change the permissions of the gradlew file to make it executable
+RUN chmod +x gradlew
+
+# Execute the gradlew build command
+CMD ["./gradlew", "build"]
+
+# Expose port 8080 to the host machine
+EXPOSE 8080
+
+# Run the jar file created by the build process
+CMD ["java", "-jar", "build/libs/react-and-spring-data-rest-basic-0.0.1-SNAPSHOT.jar"]

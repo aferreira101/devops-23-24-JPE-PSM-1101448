@@ -1,4 +1,4 @@
-# This Dockerfile is used to build and run a Java application using Gradle.
+# This Dockerfile_web is used to build and run a Java application using Gradle.
 
 # We start from a base image that includes Gradle and JDK 17.
 FROM gradle:jdk17 AS builder
