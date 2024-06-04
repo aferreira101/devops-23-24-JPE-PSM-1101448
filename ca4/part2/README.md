@@ -12,6 +12,10 @@
     - [Step 2: Build the Docker Images](#step-2-build-the-docker-images)
     - [Step 3: Publish the Docker Images](#step-3-publish-the-docker-images)
 - [Conclusion](#conclusion)
+- [Exploring Kubernetes: An Alternative to Docker](#exploring-kubernetes-an-alternative-to-docker)
+    - [Comparing Kubernetes to Docker](#comparing-kubernetes-to-docker)
+    - [Using Kubernetes for the Same Goals](#using-kubernetes-for-the-same-goals)
+    - [Conclusion](#conclusion-1)
 
 ## Tutorial
 
@@ -176,6 +180,48 @@ application image ran the **react-and-spring-data-rest-basic** application, whil
 server. The docker-compose file defined the services for the application and database images, as well as the network
 configuration and volumes. The images were built and run using the `docker-compose up --build` command, and the images
 were tagged and pushed to Docker Hub using the `docker tag` and `docker push` commands.
+
+## Exploring Kubernetes: An Alternative to Docker
+
+**Kubernetes** is an open-source platform designed to automate deploying, scaling, and operating containerized
+applications.
+While Docker focuses on individual containerization, Kubernetes provides orchestration for managing multiple containers
+at scale.
+
+### Comparing Kubernetes to Docker
+
+| Feature                                 | Docker                                                                                                            | Kubernetes                                                                                                                 |
+|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| Basic Containerization                  | Focuses on the creation, deployment, and management of individual containers.                                     | Does not handle container creation directly; instead, it orchestrates containers created by Docker.                        |
+| Orchestration                           | Docker Swarm is Docker’s native clustering and orchestration tool, but it’s less powerful compared to Kubernetes. | Offers powerful orchestration capabilities including automatic scaling, self-healing, load balancing, and rolling updates. |
+| Scaling                                 | Manual scaling or using Docker Swarm for automatic scaling.                                                       | Automated scaling with the Horizontal Pod Autoscaler.                                                                      |
+| Service Discovery<br>and Load Balancing | Basic load balancing and service discovery with Docker Swarm.                                                     | Advanced service discovery with DNS and built-in load balancing.                                                           |
+| Storage Orchestration                   | Volume management with Docker volumes.                                                                            | Manages storage using persistent volumes, persistent volume claims, and dynamic provisioning.                              |
+| Networking                              | Networking is simpler and managed using bridge, overlay, or host networks.                                        | Advanced networking through network plugins (CNI), supports complex networking models.                                     |
+| Configuration Management                | Environment variables and Docker secrets.                                                                         | ConfigMaps and Secrets for managing configuration.                                                                         |
+| Self-Healing                            | Limited to container restarts.                                                                                    | Automatically replaces and reschedules containers that fail, are terminated, or don’t respond to health checks.            |
+| Community and Ecosystem                 | Strong community and extensive ecosystem of tools and services.                                                   | Larger community and broader ecosystem, supported by major cloud providers and many third-party tools.                     |
+
+### Using Kubernetes for the Same Goals
+
+To achieve the same goals presented in the assignment using Kubernetes, we need to:
+
+1. Set up a Kubernetes Cluster:
+    - Use a managed Kubernetes service (e.g. Google Kubernetes Engine, Amazon EKS, Azure AKS) or set up a local cluster
+      using Minikube or Kind.
+
+2. Create Kubernetes Manifests:
+    - Define Kubernetes manifests for the Spring Boot application and the H2 database. These include Deployment,
+      Service, ConfigMap, and PersistentVolumeClaim resources.
+
+3. Deploy the Application and Database:
+    - Use kubectl to apply the manifests and manage the lifecycle of the application.
+
+### Conclusion
+
+Kubernetes offers advanced orchestration features that complement Docker’s containerization capabilities. By using
+Kubernetes, you can efficiently manage and scale your Spring Boot application and H2 database, ensuring high
+availability and robust performance in a production environment.
 
 [Back to Top](#table-of-contents)
 
