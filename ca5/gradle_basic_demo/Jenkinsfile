@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out from repository'
+                git branch: 'main', url: 'https://github.com/aferreira101/devops-23-24-JPE-PSM-1101448.git'
+            }
+        }
+        stage('Assemble') {
+            steps {
+                dir('ca2/part1/gradle_basic_demo') {
+                    echo 'Assembling...'
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean assemble'
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('ca2/part1/gradle_basic_demo') {
+                echo 'Running Tests...'
+                sh './gradlew test'
+                junit 'build/test-results/test/*.xml'
+            }
+        }
+        stage('Archive') {
+            steps {
+                dir('ca2/part1/gradle_basic_demo') {
+                echo 'Archiving artifacts...'
+                archiveArtifacts artifacts: 'build/libs/*.war', allowEmptyArchive: true
+            }
+        }
+    }
+}
