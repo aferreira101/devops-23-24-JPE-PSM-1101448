@@ -12,35 +12,43 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out...'
+                echo 'Checking out from repository...'
                 git branch: 'main',  credentialsId: env.GIT_CREDENTIALS_ID, url: env.REPO_URL
             }
         }
-        stage('Assemble') {
+       stage('Assemble') {
             steps {
-                echo 'Assembling...'
-                sh 'chmod +x gradlew'
-                sh './gradlew assemble'
+                dir('ca2/part2/react-and-spring-data-rest-basic') {
+                    echo 'Assembling...'
+                    sh 'chmod +x gradlew'
+                    sh './gradlew clean assemble'
+                }
             }
-        }
+       }
         stage('Test') {
             steps {
-                echo 'Testing...'
-                sh './gradlew test'
-                junit '**/build/test-results/test/*.xml'
+                dir('ca2/part2/react-and-spring-data-rest-basic') {
+                    echo 'Testing...'
+                    sh './gradlew test'
+                    junit '**/build/test-results/test/*.xml'
+                }
             }
         }
         stage('Javadoc') {
             steps {
-                echo 'Generating Javadoc...'
-                sh './gradlew javadoc'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/docs/javadoc', reportFiles: 'index.html', reportName: 'Javadoc'])
+                dir('ca2/part2/react-and-spring-data-rest-basic') {
+                    echo 'Generating Javadoc...'
+                    sh './gradlew javadoc'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'build/docs/javadoc', reportFiles: 'index.html', reportName: 'Javadoc'])
+                }
             }
         }
         stage('Archive') {
             steps {
-                echo 'Archiving...'
-                archiveArtifacts artifacts: 'build/libs/*.jar', allowEmptyArchive: true
+                dir('ca2/part2/react-and-spring-data-rest-basic') {
+                    echo 'Archiving...'
+                    archiveArtifacts artifacts: 'build/libs/*.jar', allowEmptyArchive: true
+                }
             }
         }
         stage('Build Docker Image') {
