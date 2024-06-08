@@ -14,21 +14,24 @@ pipeline {
                     echo 'Assembling...'
                     sh 'chmod +x gradlew'
                     sh './gradlew clean assemble'
+                }
             }
         }
         stage('Test') {
             steps {
                 dir('ca2/part1/gradle_basic_demo') {
-                echo 'Running Tests...'
-                sh './gradlew test'
-                junit 'build/test-results/test/*.xml'
+                    echo 'Running Tests...'
+                    sh './gradlew test'
+                    junit 'build/test-results/test/*.xml'
+                }
             }
         }
         stage('Archive') {
             steps {
                 dir('ca2/part1/gradle_basic_demo') {
-                echo 'Archiving artifacts...'
-                archiveArtifacts artifacts: 'build/libs/*.war', allowEmptyArchive: true
+                    echo 'Archiving artifacts...'
+                    archiveArtifacts artifacts: 'build/libs/*.war', allowEmptyArchive: true
+                }
             }
         }
     }
