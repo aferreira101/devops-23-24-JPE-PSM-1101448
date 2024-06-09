@@ -55,7 +55,7 @@ pipeline {
                 script {
                     echo 'Building Docker Image...'
                     sh 'docker info'
-                    def app = docker.build("${env.DOCKER_IMAGE}:${env.BUILD_ID}")
+                    def app = docker.build("${env.DOCKER_IMAGE}:${env.BUILD_ID}", '.')
                     docker.withRegistry(env.DOCKER_REGISTRY, env.DOCKER_CREDENTIALS_ID) {
                     app.push()
                     }
