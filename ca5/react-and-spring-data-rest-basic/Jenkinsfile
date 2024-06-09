@@ -52,14 +52,12 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                dir('ca2/part2/react-and-spring-data-rest-basic') {
-                    script {
-                        echo 'Building Docker Image...'
-                        sh 'docker info'
-                        def app = docker.build("${env.DOCKER_IMAGE}:${env.BUILD_ID}")
-                        docker.withRegistry(env.DOCKER_REGISTRY, env.DOCKER_CREDENTIALS_ID) {
-                            app.push()
-                        }
+                script {
+                    echo 'Building Docker Image...'
+                    sh 'docker info'
+                    def app = docker.build("${env.DOCKER_IMAGE}:${env.BUILD_ID}")
+                    docker.withRegistry(env.DOCKER_REGISTRY, env.DOCKER_CREDENTIALS_ID) {
+                    app.push()
                     }
                 }
             }
